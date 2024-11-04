@@ -149,13 +149,13 @@ class _CalendarioWidgetState extends State<CalendarioWidget> {
     return nombresMeses[mes - 1];
   }
 
- // Método para actualizar el calendario con una nueva lista de citas
-void actualizar(List<Cita> nuevasCitas) {
-  setState(() {
-    widget.citas.clear();
-    widget.citas.addAll(nuevasCitas);
-  });
-}
+  // Método para actualizar el calendario con una nueva lista de citas
+  void actualizar(List<Cita> nuevasCitas) {
+    setState(() {
+      widget.citas.clear();
+      widget.citas.addAll(nuevasCitas);
+    });
+  }
 
   // Método para obtener la fecha seleccionada
   DateTime? get fechaSeleccionada => _fechaSeleccionada;
