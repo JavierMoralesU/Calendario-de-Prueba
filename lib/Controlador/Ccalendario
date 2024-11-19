@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:calendario/Modelo/Cita.dart';
+import 'package:calendario/Modelo/ListaCitas.dart';
 
 
 class Ccalendario extends ChangeNotifier {
 
   DateTime _fechaActual = DateTime.now();
   DateTime? _fechaSeleccionada;
-  List<Cita> _citas = [];
+  final ListaCitas listaCitas; // Inyección de dependencia
+
+  Ccalendario(this.listaCitas);
+
 
   // Getter y Setter para _fechaActual
   DateTime get fechaActual => _fechaActual;
   DateTime? get fechaSeleccionada => _fechaSeleccionada;
-  List<Cita> get citas => _citas;
 
   // Cambiar mes (navegación)
   void cambiarMes(int incremento) 
@@ -27,14 +30,14 @@ class Ccalendario extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Actualizar las citas del calendario
-  void actualizarCitas(List<Cita> nuevasCitas) 
-  {
-    _citas = nuevasCitas;
-    notifyListeners();
-  }
+  // // Actualizar las citas del calendario
+  // void actualizarCitas(List<Cita> nuevasCitas) 
+  // {
+  //   _citas = nuevasCitas;
+  //   notifyListeners();
+  // }
 
-  // Obtener el nombre del mes
+  // Obtener el nombre del mes 
   String obtenerNombreMes(int mes) 
   {
     const nombresMeses = 
@@ -59,12 +62,9 @@ class Ccalendario extends ChangeNotifier {
     return Colors.blue.shade900;
   }
 
-  // Filtrar las citas por fecha
-  List<Cita> obtenerCitasPorFecha(DateTime fecha) 
-  {
-    return _citas
-        .where((cita) => cita.fecha.year == fecha.year && cita.fecha.month == fecha.month && cita.fecha.day == fecha.day)
-        .toList();
+  // Método para obtener las citas de un día
+   List<Cita> obtenerCitasPorFecha(DateTime fecha) {
+    return listaCitas.filtrar(fecha: fecha);
   }
 
 }

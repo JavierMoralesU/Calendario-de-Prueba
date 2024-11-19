@@ -1,9 +1,17 @@
 import 'package:calendario/Modelo/Cita.dart';
+import 'package:flutter/material.dart';
 
-class ListaCitas {
+class ListaCitas with ChangeNotifier {
 
   // Ejemplo de nueva instancia vacia es: ListaCitas()
   final List<Cita> _citas ;
+
+    ListaCitas() : _citas = [];
+    // Constructor para crear una nueva lista de citas
+    ListaCitas._conLista(List<Cita> citas) : _citas = List.from(citas);
+
+    List<Cita> get todasLasCitas => List.unmodifiable(_citas);
+
 
   Future<bool> agregarCita(Cita nuevaCita) async 
   {
@@ -18,7 +26,8 @@ class ListaCitas {
     {
      return false; // Ya existe una cita del mismo cliente en el mismo día
     } 
-   _citas.add(nuevaCita);
+    _citas.add(nuevaCita);
+    notifyListeners(); // Notifica a los widgets que dependen de esta lista
    return true;
   }
 
@@ -28,12 +37,16 @@ class ListaCitas {
    if (index != -1) 
    {
     _citas[index] = citaNueva;
+    notifyListeners(); // Notifica a los widgets que dependen de esta lista
+
    }
   } 
 
   // Método para eliminar una cita
   void eliminarCita(Cita cita) {
     _citas.remove(cita);
+    notifyListeners(); // Notifica a los widgets que dependen de esta lista
+
   }
 
   // Filtros y ordenamientos
@@ -78,18 +91,13 @@ class ListaCitas {
 
 
   
-  // Constructor para crear una nueva lista de citas
-  ListaCitas._conLista(List<Cita> citas) : _citas = List.from(citas);
 
-  // Constructor por defecto, inicializa _citas con una lista vacía
-  ListaCitas() : _citas = [];
 
   void ordenarListaActualPorFecha() 
   {
     _citas.sort((a, b) => a.fecha.compareTo(b.fecha));
   }
 
-  List<Cita> get todasLasCitas => _citas;
 
 
 // Método para obtener una cita específica por cliente y fecha
